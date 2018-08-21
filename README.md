@@ -17,6 +17,7 @@ This way have some useful things:
 * The first element link is by default *controller*.**edit**, but is posible to change it
 * With other elements, if the element is an email, the system convert to email link
 * Not need to configurate jQuery (but is possible, because the script is one of two views)
+* Is possible to create multiple structure of datatable. Only need to copy datatable, modify it and call it with **custom version**
 
 ## Usage
 * We assume you have jquery included in your HTML
