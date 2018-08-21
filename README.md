@@ -29,7 +29,8 @@ This way have some useful things:
 ```
 
 2. Include Trait (example how do it down, into "Usage")
-2.1 **Trait**
+
+2.1 **Trait**: DatatableTrait.php
 ```php
 <?php
 
@@ -95,7 +96,7 @@ trait DatatableTrait
 
 ```
 
-2.1 **Class**
+2.2 **Class**: DatatableGenerator.php
 
 ```php
 <?php
