@@ -5,6 +5,10 @@
 
 	        window.table = $(table_id).DataTable({
 	        	responsive: true,
+
+	        	@if (isset($columnSort))
+	        	order: [[ {{ $columnSort }}, "{{ $sorting }}" ]],
+	        	@endif
 	        	
 	            @if (!$search && App::getLocale() == 'es')
 	            language: {

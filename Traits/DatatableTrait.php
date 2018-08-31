@@ -48,12 +48,20 @@ trait DatatableTrait
      * Para mostrar el jQuery que carga los datatables.
      *
      * @param   string      $dt_id          [el id de la tabla que se convertira en datatable]
+     * @param   string      $search         [indica si se añade el buscador o no]
+     * @param   string      $columnSort     [la columna desde la que se quiere ordenar (la primera es 0)]
+     * @param   string      $sorting        [sentido del orden (por defecto descendente)]
      * @param   boolean     $search         [true = se muestran inputs de busqueda en cada columna (pierde traducción)]
      * @return vista HTML
      */
-    public function script($dt_id, $search = false)
+    public function script($dt_id, $search = false, $columnSort = null, $sorting = 'desc')
     {
-        $view = \View::make('datatable.script', ['datatable_id' => $dt_id, 'search' => $search]);
+        $view = \View::make('datatable.script', [
+                                                    'datatable_id'  => $dt_id,
+                                                    'search'        => $search,
+                                                    'columnSort'    => $columnSort,
+                                                    'sorting'       => $sorting
+                                                ]);
         $contents = $view->render();
 
         return  $contents;
