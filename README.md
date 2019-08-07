@@ -56,13 +56,8 @@ trait DatatableTrait
      * @param   array       $titles         [array que contiene los títulos de la tabla. Si es null se mostrará los atributos/columnas]
      * @return vista HTML
      */
-    public function datatable($dt_id, $values, $array_values, $route = NULL, $link = 'edit', $search = false, $template = null, $titles = null)
+    public function datatable($dt_id, $values, $array_values, $route, $link, $search = false, $template, $titles)
     {
-        if (!$template)
-        {
-            $template = 'datatable.datatable';
-        }
-
         $view = \View::make($template, [
                                             'values'        => $values,
                                             'datatable_id'  => $dt_id,
@@ -82,12 +77,21 @@ trait DatatableTrait
      * Para mostrar el jQuery que carga los datatables.
      *
      * @param   string      $dt_id          [el id de la tabla que se convertira en datatable]
+     * @param   string      $search         [indica si se añade el buscador o no]
+     * @param   string      $columnSort     [la columna desde la que se quiere ordenar (la primera es 0)]
+     * @param   string      $sorting        [sentido del orden (por defecto descendente)]
      * @param   boolean     $search         [true = se muestran inputs de busqueda en cada columna (pierde traducción)]
+     * @param   string      $template       [cambiamos el script por defecto por otra a nuestro gusto]
      * @return vista HTML
      */
-    public function script($dt_id, $search = false)
+    public function script($dt_id, $search = false, $columnSort = null, $sorting = 'desc', $template)
     {
-        $view = \View::make('datatable.script', ['datatable_id' => $dt_id, 'search' => $search]);
+        $view = \View::make($template, [
+                                                    'datatable_id'  => $dt_id,
+                                                    'search'        => $search,
+                                                    'columnSort'    => $columnSort,
+                                                    'sorting'       => $sorting
+                                                ]);
         $contents = $view->render();
 
         return  $contents;
@@ -119,7 +123,7 @@ class DatatableGenerator
         return $this;
     }
 
-    public function loadDatatable($id_datatable, $model, $controller, $template = null, $method = 'edit', $search = false)
+    public function loadDatatable($id_datatable, $model, $controller, $template = 'datatable.datatable', $method = 'edit', $search = false, $columnSort = null, $sorting = 'desc', $template_script = 'datatable.script')
     {
         $data = $titles = $model->getFillable();
 
@@ -131,12 +135,12 @@ class DatatableGenerator
                                     $id_datatable, $model, $data, $method, $controller, $search, $template, $titles
                                 );
             
-        $script = $dt->script($id_datatable, $search);
+        $script = $dt->script($id_datatable, $search, $columnSort, $sorting, $template_script);
 
         return ['datatable' => $datatable, 'script' => $script];
     }
 
-    public function customDatatable($id_datatable, $model, $data, $titles, $controller = null, $template = null, $method = null, $search = false)
+    public function customDatatable($id_datatable, $model, $data, $titles, $controller = null, $template = 'datatable.datatable', $method = null, $search = false, $columnSort = null, $sorting = 'desc', $template_script = 'datatable.script')
     {
         $method = ($controller && (! $method)) ? 'edit' : null;
 
@@ -146,16 +150,15 @@ class DatatableGenerator
                                     $id_datatable, $model, $data, $method, $controller, $search, $template, $titles
                                 );
             
-        $script = $dt->script($id_datatable, $search);
+        $script = $dt->script($id_datatable, $search, $columnSort, $sorting, $template_script);
 
         return ['datatable' => $datatable, 'script' => $script];
     }
 }
 
-
 ```
 
-3. (Only for **custom datatable version**) We create a new folder into views folder. Call it *datatable*. Inside we put the datatable views files, **datatable.blade.php** and **script.blade.php**
+3. (Only for **custom datatable version**) We create a new folder into views folder. Call it *datatable*. Inside we put the datatable views files, **datatable.blade.php** and **script.blade.php**  
 3.1 **datatable.blade.php**
 ```php
 <table id="{{ $datatable_id }}" class="table table-striped table-hover" cellspacing="0">
