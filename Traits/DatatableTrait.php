@@ -52,11 +52,12 @@ trait DatatableTrait
      * @param   string      $columnSort     [la columna desde la que se quiere ordenar (la primera es 0)]
      * @param   string      $sorting        [sentido del orden (por defecto descendente)]
      * @param   boolean     $search         [true = se muestran inputs de busqueda en cada columna (pierde traducción)]
+     * @param   string      $template       [cambiamos el script por defecto por otra a nuestro gusto]
      * @return vista HTML
      */
-    public function script($dt_id, $search = false, $columnSort = null, $sorting = 'desc')
+    public function script($dt_id, $search = false, $columnSort = null, $sorting = 'desc', $template)
     {
-        $view = \View::make('datatable.script', [
+        $view = \View::make($template, [
                                                     'datatable_id'  => $dt_id,
                                                     'search'        => $search,
                                                     'columnSort'    => $columnSort,
