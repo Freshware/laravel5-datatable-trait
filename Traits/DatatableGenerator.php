@@ -18,7 +18,7 @@ class DatatableGenerator
         return $this;
     }
 
-    public function loadDatatable($id_datatable, $model, $controller, $template = null, $method = 'edit', $search = false, $columnSort = null, $sorting = 'desc')
+    public function loadDatatable($id_datatable, $model, $controller, $template = 'datatable.datatable', $method = 'edit', $search = false, $columnSort = null, $sorting = 'desc', $template_script = 'datatable.script')
     {
         $data = $titles = $model->getFillable();
 
@@ -30,12 +30,12 @@ class DatatableGenerator
                                     $id_datatable, $model, $data, $method, $controller, $search, $template, $titles
                                 );
             
-        $script = $dt->script($id_datatable, $search, $columnSort, $sorting);
+        $script = $dt->script($id_datatable, $search, $columnSort, $sorting, $template_script);
 
         return ['datatable' => $datatable, 'script' => $script];
     }
 
-    public function customDatatable($id_datatable, $model, $data, $titles, $controller = null, $template = null, $method = null, $search = false, $columnSort = null, $sorting = 'desc')
+    public function customDatatable($id_datatable, $model, $data, $titles, $controller = null, $template = 'datatable.datatable', $method = null, $search = false, $columnSort = null, $sorting = 'desc', $template_script = 'datatable.script')
     {
         $method = ($controller && (! $method)) ? 'edit' : null;
 
@@ -45,7 +45,7 @@ class DatatableGenerator
                                     $id_datatable, $model, $data, $method, $controller, $search, $template, $titles
                                 );
             
-        $script = $dt->script($id_datatable, $search, $columnSort, $sorting);
+        $script = $dt->script($id_datatable, $search, $columnSort, $sorting, $template_script);
 
         return ['datatable' => $datatable, 'script' => $script];
     }
